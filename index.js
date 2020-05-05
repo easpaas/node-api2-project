@@ -10,6 +10,6 @@ server.get('/', (req, res) => {
   res.json("Server is running.")
 })
 
-// server.use('/blogs', blogRouter);
+server.use('/api/blogs', blogRouter);
 
 server.listen(8000, () => console.log('API running on port 8000'));
