@@ -39,7 +39,25 @@ router.post('/', (req, res) => {
     .then(post => {res.status(201).json(post)})
     .catch(error => {
       res.status(500).json({
-        message: 'Error add a new blog',
+        message: 'Error adding a new blog',
+      })
+    });
+});
+
+// Update a blog post by valid id
+router.put('/:id', (req, res) => {
+  const changes = req.body;
+  db.update(req.params.id, changes)
+    .then(post => {
+      post ? 
+        res.status(200).json(post)
+      :
+        res.status(404).json({ message: "Blog post not found"});
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: `Error updating blog with id ${req.params.id}`
       })
     });
 });
