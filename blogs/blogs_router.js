@@ -19,4 +19,17 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+  db.findById(req.params.id)
+    .then(blog => {
+      res.status(200).json(blog);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        message: 'Error retrieving the blogs',
+      });
+    });
+});
+
 module.exports = router;
