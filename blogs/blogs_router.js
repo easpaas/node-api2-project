@@ -19,10 +19,11 @@ router.get("/", (req, res) => {
     });
 });
 
+// Returns a blog post when given a valid id
 router.get('/:id', (req, res) => {
   db.findById(req.params.id)
-    .then(blog => {
-      res.status(200).json(blog);
+    .then(post => {
+      res.status(200).json(post);
     })
     .catch(error => {
       console.log(error);
@@ -31,5 +32,17 @@ router.get('/:id', (req, res) => {
       });
     });
 });
+
+// Adds a blog post 
+router.post('/', (req, res) => {
+  db.insert(req.body)
+    .then(post => {res.status(201).json(post)})
+    .catch(error => {
+      res.status(500).json({
+        message: 'Error add a new blog',
+      })
+    });
+});
+
 
 module.exports = router;
