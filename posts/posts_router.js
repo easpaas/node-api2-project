@@ -92,6 +92,7 @@ router.delete('/:id', (req, res) => {
  * ***************
  */
 
+//  Return comments when given a valid post Id
 router.get("/:id/comments", (req, res) => {
   const id = req.params.id;
   db.findPostComments(id)
@@ -107,7 +108,8 @@ router.get("/:id/comments", (req, res) => {
     });
 })
 
-router.get('/:id', (req, res) => {
+// Return comment by id 
+router.get('/comments/:id', (req, res) => {
   db.findCommentById(id)
     .then(comment => {
       comment ?
@@ -120,12 +122,17 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+// Return successful comment 
+router.post('/:id/comments', (req, res) => {
+  const post_id = req.params.id;
   const comment = req.body;
   db.insertComment(comment)
     .then(post => {
-      res.status(201).json(post)
-    })
+      post ? 
+        res.status(201).json(post)
+      :
+        res.status(404).json({ meessage: 'Could not add comment with unknown post id'})
+      })
     .catch(error => {
       console.log(error)
       res.status(500).json({ errorMessage: 'Trouble connecting to server'});
