@@ -62,5 +62,22 @@ router.put('/:id', (req, res) => {
     });
 });
 
+// Delete a blog post given a valid id
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  db.remove(id)
+    .then(id => {
+      console.log(id)
+      id ? 
+        res.status(204).json(id)
+      :
+        res.status(404).json({ message: "Blog post not found"});
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).json({ message: 'Error deleting blog post'})
+    });
+})
+
 
 module.exports = router;
