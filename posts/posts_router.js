@@ -41,7 +41,6 @@ router.get('/:id', (req, res) => {
 
 // Adds a blog post 
 router.post('/', (req, res) => {
-
   if (!req.body.title || !req.body.contents) {
     res.status(400).json({ errorMessage: 'Please provide title and contents for the post'});
   } 
