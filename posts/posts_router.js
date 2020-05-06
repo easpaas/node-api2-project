@@ -41,8 +41,15 @@ router.get('/:id', (req, res) => {
 
 // Adds a blog post 
 router.post('/', (req, res) => {
+
+  if (!req.body.title || !req.body.contents) {
+    res.status(400).json({ errorMessage: 'Please provide title and contents for the post'});
+  } 
+
   db.insert(req.body)
-    .then(post => {res.status(201).json(post)})
+    .then(post => {
+      res.status(201).json(post)
+    })
     .catch(error => {
       console.log(error)
       res.status(500).json({
@@ -108,24 +115,29 @@ router.get("/:id/comments", (req, res) => {
     });
 })
 
-// Return comment by id 
-router.get('/comments/:id', (req, res) => {
-  db.findCommentById(id)
-    .then(comment => {
-      comment ?
-        res.status(200).json(comment)
-      :
-        res.status(404).json({ message: 'Comment could not be found'})
-    })
-    .catch(error => {
-      res.status(500).json({ errorMessage: 'Trouble connecting to server'});
-    })
-})
+// // Return comment by id 
+// router.get('/comments/:id', (req, res) => {
+//   db.findCommentById(id)
+//     .then(comment => {
+//       comment ?
+//         res.status(200).json(comment)
+//       :
+//         res.status(404).json({ message: 'Comment could not be found'})
+//     })
+//     .catch(error => {
+//       res.status(500).json({ errorMessage: 'Trouble connecting to server'});
+//     })
+// })
 
 // Return successful comment 
 router.post('/:id/comments', (req, res) => {
   const post_id = req.params.id;
   const comment = req.body;
+
+  if (!req.body.text) {
+    res.status(400).json({ errorMessage: 'Please provide text for the comment.'});
+  }
+
   db.insertComment(comment)
     .then(post => {
       post ? 
