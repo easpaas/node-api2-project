@@ -4,17 +4,17 @@ const db = require("../data/db");
 
 const router = express.Router();
 
-// by the time we reach this router the URL has /api/blogs
+// by the time we reach this router the URL has /api/posts
 // so we only need to handle the rest of the URL
 router.get("/", (req, res) => {
   db.find()
-    .then(blogs => {
-      res.status(200).json(blogs);
+    .then(posts => {
+      res.status(200).json(posts);
     })
     .catch(error => {
       console.log(error);
       res.status(500).json({
-        message: "Error retrieving the blogs",
+        message: "Error retrieving the posts",
       });
     });
 });
@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
     .catch(error => {
       console.log(error);
       res.status(500).json({
-        message: 'Error retrieving the blogs',
+        message: 'Error retrieving the posts',
       });
     });
 });
@@ -38,6 +38,7 @@ router.post('/', (req, res) => {
   db.insert(req.body)
     .then(post => {res.status(201).json(post)})
     .catch(error => {
+      console.log(error)
       res.status(500).json({
         message: 'Error adding a new blog',
       })
@@ -57,7 +58,7 @@ router.put('/:id', (req, res) => {
     .catch(error => {
       console.log(error);
       res.status(500).json({
-        message: `Error updating blog with id ${req.params.id}`
+        message: `Error updating post with id ${req.params.id}`
       })
     });
 });
