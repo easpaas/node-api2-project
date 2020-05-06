@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 import "./App.css";
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
       .catch(error => {
         console.log(error);
       });
-  }, [data]);
+  }, []);
 
   return (
     <div className="App">
@@ -22,10 +23,12 @@ function App() {
       <div className="Blog">
         {
           data.map(post => {
-            <div key={post.id} className="Post">
-              <h2>{data.title}</h2>
-              <p>{data.contents}</p>
-            </div>;
+            return(
+              <div key={post.id} className="Post">
+                <h2>{post.title}</h2>
+                <p>{post.contents}</p>
+              </div>
+            )
           })
         }
       </div>
